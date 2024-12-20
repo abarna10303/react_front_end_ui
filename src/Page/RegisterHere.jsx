@@ -11,6 +11,8 @@ import React from "react";
 import { commonStyles } from "./CommonStyles";
 import { makeStyles } from "@mui/styles";
 import { indianStatesOptions, typeOptions } from "../Constants/Constants";
+import { useDispatch } from "react-redux";
+import { postUserDetails } from "../store/thunck";
 
 const useStyles = makeStyles({
   registerBox: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles({
 });
 
 const RegisterHere = () => {
+  const dispatch = useDispatch();
   const commonClasses = commonStyles();
   const classes = useStyles();
   const registerInitialState = {
@@ -63,11 +66,17 @@ const RegisterHere = () => {
   const [registerState, setRegisterState] =
     React.useState(registerInitialState);
 
+  console.log(registerState, "12345");
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setRegisterState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const postData = async () => {
+    await dispatch(postUserDetails(registerState));
+    setRegisterState(registerInitialState);
+  };
   return (
     <Box className={commonClasses.formContainer}>
       <Box className={`${commonClasses.formBox} ${classes.registerBox}`}>
@@ -149,9 +158,9 @@ const RegisterHere = () => {
           <Box className={`${classes.inputFields} ${classes.dropDownFields}`}>
             <InputLabel>State</InputLabel>
             <Select
-              name="type"
-              placeholder="Enter Type"
-              value={registerState["type"]}
+              name="state"
+              placeholder="Enter State"
+              value={registerState["state"]}
               onChange={handleInputChange}
             >
               {indianStatesOptions.map(({ label, value }) => (
@@ -175,7 +184,7 @@ const RegisterHere = () => {
         <Box
           className={`${commonClasses.formButton} ${classes.registerBtnContainer}`}
         >
-          <Button>Register</Button>
+          <Button onClick={() => postData()}>Register</Button>
         </Box>
       </Box>
     </Box>
