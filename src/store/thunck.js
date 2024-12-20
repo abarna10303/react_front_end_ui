@@ -4,10 +4,7 @@ import {
   agriTechSuccessMessage,
   otpLoginSuccessMessage,
 } from "./slice";
-
 const url = "http://localhost:9001";
-import { agriTechErrorMessage, agriTechSuccessMessage } from "./slice";
-
 export const getFetchData = () => async (dispatch) => {
   try {
     const response = await axios.get(`${url}/getData`);
