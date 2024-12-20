@@ -72,7 +72,7 @@ const Login = () => {
   useEffect(() => {
     if (!isEmpty(otpSuccessData)) {
       navigate("/dashboard");
-      localStorage.setItem("otpSuccessData", otpSuccessData);
+      localStorage.setItem("otpSuccessData", JSON.stringify(otpSuccessData));
     }
   }, [otpSuccessData]);
 
