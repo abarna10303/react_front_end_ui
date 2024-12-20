@@ -3,10 +3,18 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import React from "react";
+import React, { useEffect } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import { useNavigate } from "react-router-dom";
 import { commonStyles } from "./CommonStyles";
+import { useDispatch, useSelector } from "react-redux";
+import { otpLogin, otpLoginValidation } from "../store/thunck";
+import {
+  selectErrorMessage,
+  selectOtpLoginSuccessMessage,
+  selectSuccessMessage,
+} from "../store/selector";
+import { isEmpty } from "lodash";
 
 const useStyles = makeStyles({
   resendOtpContainer: {
@@ -33,6 +41,10 @@ const Login = () => {
   const classes = useStyles();
   const commonClasses = commonStyles();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const successMessage = useSelector(selectSuccessMessage);
+  const otpSuccessMessage = useSelector(selectOtpLoginSuccessMessage);
+  const errorMessage = useSelector(selectErrorMessage);
   const initialState = {
     mobileNo: "",
     otpNo: "",
@@ -45,50 +57,72 @@ const Login = () => {
     setState({ ...state, [name]: value });
   };
 
-  console.log(state);
-
   const handleRegister = () => {
     navigate("/register");
   };
 
+  const handleLogin = () => {
+    dispatch(otpLogin(mobileNo));
+  };
+
+  const handleLoginOtp = () => {
+    dispatch(otpLoginValidation(otpNo, mobileNo));
+  };
+
+  useEffect(() => {
+    if (!isEmpty(otpSuccessMessage)) {
+      navigate("/dashboard");
+    }
+  }, [otpSuccessMessage]);
+
   return (
-    <Box className={commonClasses.formContainer}>
-      <Box className={commonClasses.formBox}>
-        <Typography variant="h1" className={commonClasses.formTitle}>
-          Login
-        </Typography>
-        <Box className={commonClasses.formInputFields}>
-          <InputLabel>Mobile No</InputLabel>
-          <TextField
-            variant="outlined"
-            name="mobileNo"
-            placeholder="Enter Mobile No"
-            type="number"
-            value={mobileNo}
-            onChange={handleInputChange}
-          />
-        </Box>
-        <Box className={commonClasses.formInputFields}>
-          <InputLabel>OTP No</InputLabel>
-          <TextField
-            variant="outlined"
-            name="otpNo"
-            placeholder="Enter OTP No"
-            value={otpNo}
-            onChange={handleInputChange}
-          />
-          <Box className={classes.resendOtpContainer}>
-            <Button>Resend OTP</Button>
+    <>
+      <Box className={commonClasses.formContainer}>
+        <Box className={commonClasses.formBox}>
+          <Typography variant="h1" className={commonClasses.formTitle}>
+            Login
+          </Typography>
+          {isEmpty(successMessage) && (
+            <Box className={commonClasses.formInputFields}>
+              <InputLabel>Mobile No</InputLabel>
+              <TextField
+                variant="outlined"
+                name="mobileNo"
+                placeholder="Enter Mobile No"
+                type="number"
+                value={mobileNo}
+                onChange={handleInputChange}
+              />
+            </Box>
+          )}
+          {!isEmpty(successMessage) && (
+            <Box className={commonClasses.formInputFields}>
+              <InputLabel>OTP No</InputLabel>
+              <TextField
+                variant="outlined"
+                name="otpNo"
+                placeholder="Enter OTP No"
+                value={otpNo}
+                onChange={handleInputChange}
+              />
+              <Box className={classes.resendOtpContainer}>
+                <Button>Resend OTP</Button>
+              </Box>
+            </Box>
+          )}
+          <Box className={commonClasses.formButton}>
+            <Button
+              onClick={isEmpty(successMessage) ? handleLogin : handleLoginOtp}
+            >
+              {isEmpty(successMessage) ? "Login" : "Login with OTP"}
+            </Button>
+          </Box>
+          <Box className={classes.registerButton}>
+            <Button onClick={handleRegister}>Register Here</Button>
           </Box>
         </Box>
-        <Box className={commonClasses.formButton}>
-          <Button>Login</Button>
-        </Box>
-        <Box className={classes.registerButton}>
-          <Button onClick={handleRegister}>Register Here</Button>
-        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

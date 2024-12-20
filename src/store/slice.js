@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  successMassege: [],
+  successMassege: "",
   errorMessage: "",
+  otpLoginsuccessMassege: "",
 };
 
 const agriTechSlice = createSlice({
@@ -14,9 +15,15 @@ const agriTechSlice = createSlice({
     agriTechErrorMessage: (state, action) => {
       state.errorMessage = action.payload;
     },
+    otpLoginSuccessMessage: (state, action) => {
+      state.otpLoginsuccessMassege = action.payload;
+    },
   },
 });
 
-export const { agriTechSuccessMessage, agriTechErrorMessage } =
-  agriTechSlice.actions;
+export const {
+  agriTechSuccessMessage,
+  agriTechErrorMessage,
+  otpLoginSuccessMessage,
+} = agriTechSlice.actions;
 export default agriTechSlice.reducer;
