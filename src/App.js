@@ -1,19 +1,13 @@
-import { useDispatch } from "react-redux";
-import "./App.css";
-import { getFetchData } from "./store/thunck";
-import Button from "@mui/material/Button";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./Page/Login";
 
 function App() {
-  const dispatch = useDispatch();
-  const handleClick = () => {
-    dispatch(getFetchData());
-  };
   return (
-    <div className="App">
-      <h1>Click to get data</h1>
-      <button onClick={handleClick}>Get Data</button>
-      <Button>hello</Button>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
