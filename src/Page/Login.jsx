@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { otpLogin, otpLoginValidation } from "../store/thunck";
 import {
   selectErrorMessage,
-  selectOtpLoginSuccessMessage,
+  selectOtpLoginData,
   selectSuccessMessage,
 } from "../store/selector";
 import { isEmpty } from "lodash";
@@ -43,7 +43,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const successMessage = useSelector(selectSuccessMessage);
-  const otpSuccessMessage = useSelector(selectOtpLoginSuccessMessage);
+  const otpSuccessData = useSelector(selectOtpLoginData);
   const errorMessage = useSelector(selectErrorMessage);
   const initialState = {
     mobileNo: "",
@@ -70,10 +70,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (!isEmpty(otpSuccessMessage)) {
+    if (!isEmpty(otpSuccessData)) {
       navigate("/dashboard");
+      localStorage.setItem("otpSuccessData", otpSuccessData);
     }
-  }, [otpSuccessMessage]);
+  }, [otpSuccessData]);
 
   return (
     <>

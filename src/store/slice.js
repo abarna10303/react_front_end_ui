@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   successMassege: "",
   errorMessage: "",
-  otpLoginsuccessMassege: "",
+  otpLoginData: {},
 };
 
 const agriTechSlice = createSlice({
@@ -16,7 +16,7 @@ const agriTechSlice = createSlice({
       state.errorMessage = action.payload;
     },
     otpLoginSuccessMessage: (state, action) => {
-      state.otpLoginsuccessMassege = action.payload;
+      state.otpLoginData = action.payload;
     },
   },
 });
