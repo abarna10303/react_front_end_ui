@@ -4,3 +4,5 @@ export const selectOtpLoginData = (state) => state.agriTech.otpLoginData;
 export const selectActiveUserJobs = (state) => state.agriTech.activeUserJobs;
 export const selectAvailableWorkers = (state) =>
   state.agriTech.availableWorkers;
+export const selectAvailableContractors = (state) =>
+  state.agriTech.availableContractors;

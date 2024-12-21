@@ -8,7 +8,7 @@ export const typeOptions = [
     value: "worker",
   },
   {
-    label: "Contractor",
+    label: "Initiators",
     value: "contractor",
   },
 ];

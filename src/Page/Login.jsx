@@ -87,7 +87,12 @@ const Login = () => {
             </Box>
           </Box>
           <Typography variant="h1" className={commonClasses.formTitle}>
-            D - Workers
+            <span
+              style={{ color: "#ef8922", fontWeight: "bold", fontSize: "33px" }}
+            >
+              D
+            </span>
+            works
           </Typography>
           {isEmpty(successMessage) && (
             <Box className={commonClasses.formInputFields}>

@@ -88,7 +88,12 @@ const RegisterHere = () => {
           </Box>
         </Box>
         <Typography variant="h1" className={commonClasses.formTitle}>
-          D - Workers
+          <span
+            style={{ color: "#ef8922", fontWeight: "bold", fontSize: "33px" }}
+          >
+            D
+          </span>
+          works
         </Typography>
         <Box className={classes.inputFieldContainer}>
           <Box className={classes.inputFields}>

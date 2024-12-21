@@ -5,6 +5,7 @@ const initialState = {
   otpLoginData: {},
   activeUserJobs: [],
   availableWorkers: [],
+  availableContractors: [],
 };
 
 const agriTechSlice = createSlice({
@@ -26,6 +27,9 @@ const agriTechSlice = createSlice({
     fetchAvailableWorkers: (state, action) => {
       state.availableWorkers = action.payload;
     },
+    fetchAvailableContractors: (state, action) => {
+      state.availableContractors = action.payload;
+    },
   },
 });
 
@@ -35,5 +39,6 @@ export const {
   otpLoginSuccessMessage,
   fetchActiveUserJobs,
   fetchAvailableWorkers,
+  fetchAvailableContractors,
 } = agriTechSlice.actions;
 export default agriTechSlice.reducer;

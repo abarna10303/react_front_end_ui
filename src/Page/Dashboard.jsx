@@ -16,13 +16,17 @@ import { commonStyles } from "./CommonStyles";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getActiveJobs,
+  getAvailableContractors,
   getAvailableWorkers,
   postNewJob,
+  updateTheJobStatus,
 } from "../store/thunck";
 import { useNavigate } from "react-router-dom";
 import {
   selectActiveUserJobs,
+  selectAvailableContractors,
   selectAvailableWorkers,
+  selectSuccessMessage,
 } from "../store/selector";
 import DialogBox from "./DialogBox";
 
@@ -101,12 +105,13 @@ const useStyles = makeStyles({
     marginTop: "20px",
     "& .MuiButton-root": {
       width: "500px",
+      backgroundColor: "#ec7063 !important",
     },
   },
   viewDetailsButton: {
     padding: "8px 16px !important",
     textTransform: "none !important",
-    backgroundColor: "#ec7063!important",
+    backgroundColor: "#ec7063 !important",
   },
 });
 
@@ -114,8 +119,10 @@ const Dashboard = () => {
   const classes = useStyles();
   const commonClasses = commonStyles();
   const userData = JSON.parse(localStorage.getItem("otpSuccessData"));
+  const successMessage = useSelector(selectSuccessMessage);
   const activeJobs = useSelector(selectActiveUserJobs);
   const availableWorkers = useSelector(selectAvailableWorkers);
+  const availableContractors = useSelector(selectAvailableContractors);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const initialState = {
@@ -159,32 +166,50 @@ const Dashboard = () => {
     setOpen(false);
   };
 
+  const handleAddJob = (job) => {
+    dispatch(updateTheJobStatus(job._id, "Finished"));
+  };
+
   useEffect(() => {
-    dispatch(getActiveJobs(userData.fullName, userData.mobileNo))
+    dispatch(
+      getActiveJobs(
+        userData.fullName,
+        userData.mobileNo,
+        userData.type,
+        userData.pincode
+      )
+    )
       .then(() => {
         return dispatch(getAvailableWorkers(userData.pincode, "worker"));
       })
       .then(() => {
-        console.log("Both APIs completed successfully.");
+        return dispatch(getAvailableContractors(userData.pincode));
       })
       .catch((error) => {
         console.error("Error during API calls:", error);
       });
-  }, []);
+  }, [successMessage]);
 
   return (
     <div className={classes.container}>
       {/* Sidebar */}
       <div className={classes.sidebar}>
-        <Typography variant="h5" className={classes.logo}>
-          Labour Work App
+        <Typography variant="h6" className={classes.sectionTitle}>
+          Available Initiators
         </Typography>
-        <div>
-          <Typography className={classes.navItem}>Dashboard</Typography>
-          <Typography className={classes.navItem}>Post Job</Typography>
-          <Typography className={classes.navItem}>Workers</Typography>
-          <Typography className={classes.navItem}>Analytics</Typography>
-        </div>
+        <List>
+          {availableContractors.map((worker, index) => (
+            <ListItem key={index} className={classes.listItem}>
+              <ListItemAvatar>
+                <Avatar>{worker.fullName.charAt(0).toUpperCase()}</Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={worker.fullName}
+                secondary="Managed by Manager B"
+              />
+            </ListItem>
+          ))}
+        </List>
         <Box
           className={`${commonClasses.formButton} ${classes.registerBtnContainer}`}
         >
@@ -277,9 +302,15 @@ const Dashboard = () => {
                   color="primary"
                   size="small"
                   className={classes.viewDetailsButton}
-                  onClick={() => handleViewDetails(job)}
+                  onClick={
+                    userData.type === "jobOwner"
+                      ? () => handleViewDetails(job)
+                      : () => handleAddJob(job)
+                  }
                 >
-                  View Details
+                  {userData.type === "jobOwner"
+                    ? " View Details"
+                    : "Request Job"}
                 </Button>
               </ListItem>
             ))}

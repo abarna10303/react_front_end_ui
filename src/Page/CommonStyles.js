@@ -10,6 +10,7 @@ export const commonStyles = makeStyles({
     "& .MuiButton-root": {
       textTransform: "none",
     },
+    backgroundColor: "#ef892229",
   },
   formBox: {
     border: "1px solid #ccc",
@@ -28,6 +29,8 @@ export const commonStyles = makeStyles({
     "@media (min-width: 1200px)": {
       width: "30%",
     },
+    backgroundColor: "#fff",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
   },
   formTitle: {
     textAlign: "center",

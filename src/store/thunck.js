@@ -3,6 +3,7 @@ import {
   agriTechErrorMessage,
   agriTechSuccessMessage,
   fetchActiveUserJobs,
+  fetchAvailableContractors,
   fetchAvailableWorkers,
   otpLoginSuccessMessage,
 } from "./slice";
@@ -80,13 +81,29 @@ export const postNewJob = (data) => async (dispatch) => {
   }
 };
 
-export const getActiveJobs = (createdBy, mobileNo) => async (dispatch) => {
+export const getActiveJobs =
+  (createdBy, mobileNo, type, pincode) => async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `${url}/get-active-job?createdBy=${createdBy}&mobileNo=${mobileNo}&type=${type}&pincode=${pincode}`
+      );
+      if (response.status === 200) {
+        dispatch(fetchActiveUserJobs(response.data.data));
+      } else {
+        console.error("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      dispatch(agriTechErrorMessage(error));
+    }
+  };
+
+export const getAvailableWorkers = (pincode, type) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${url}/get-active-job?createdBy=${createdBy}&mobileNo=${mobileNo}`
+      `${url}/get-available-workers?pincode=${pincode}&worker=${type}`
     );
     if (response.status === 200) {
-      dispatch(fetchActiveUserJobs(response.data.data));
+      dispatch(fetchAvailableWorkers(response.data.data));
     } else {
       console.error("Unexpected response status:", response.status);
     }
@@ -95,13 +112,29 @@ export const getActiveJobs = (createdBy, mobileNo) => async (dispatch) => {
   }
 };
 
-export const getAvailableWorkers = (pincode, type) => async (dispatch) => {
+export const getAvailableContractors = (pincode) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `${url}/get-available-workers?pincode=${pincode}&type=${type}`
+      `${url}/get-available-contractors?pincode=${pincode}`
     );
     if (response.status === 200) {
-      dispatch(fetchAvailableWorkers(response.data.data));
+      dispatch(fetchAvailableContractors(response.data.data));
+    } else {
+      console.error("Unexpected response status:", response.status);
+    }
+  } catch (error) {
+    dispatch(agriTechErrorMessage(error));
+  }
+};
+
+export const updateTheJobStatus = (jobId, status) => async (dispatch) => {
+  try {
+    const response = await axios.put(`${url}/update-job-status`, {
+      jobId,
+      status,
+    });
+    if (response.status === 200) {
+      dispatch(agriTechSuccessMessage(response.data.data));
     } else {
       console.error("Unexpected response status:", response.status);
     }
