@@ -13,6 +13,8 @@ import { makeStyles } from "@mui/styles";
 import { indianStatesOptions, typeOptions } from "../Constants/Constants";
 import { useDispatch } from "react-redux";
 import { postUserDetails } from "../store/thunck";
+import LoginLogo from "../Hackathonlogo.png";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles({
   registerBox: {
@@ -53,6 +55,7 @@ const RegisterHere = () => {
   const dispatch = useDispatch();
   const commonClasses = commonStyles();
   const classes = useStyles();
+  const navigate = useNavigate();
   const registerInitialState = {
     fullName: "",
     lastName: "",
@@ -66,8 +69,6 @@ const RegisterHere = () => {
   const [registerState, setRegisterState] =
     React.useState(registerInitialState);
 
-  console.log(registerState, "12345");
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setRegisterState((prevState) => ({ ...prevState, [name]: value }));
@@ -76,12 +77,18 @@ const RegisterHere = () => {
   const postData = async () => {
     await dispatch(postUserDetails(registerState));
     setRegisterState(registerInitialState);
+    navigate("/login");
   };
   return (
     <Box className={commonClasses.formContainer}>
       <Box className={`${commonClasses.formBox} ${classes.registerBox}`}>
+        <Box className={commonClasses.imageLogoContainer}>
+          <Box className={commonClasses.imageContainer}>
+            <img src={LoginLogo} alt="LoginLogo" />
+          </Box>
+        </Box>
         <Typography variant="h1" className={commonClasses.formTitle}>
-          Register
+          D - Workers
         </Typography>
         <Box className={classes.inputFieldContainer}>
           <Box className={classes.inputFields}>

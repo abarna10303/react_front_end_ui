@@ -15,6 +15,7 @@ import {
   selectSuccessMessage,
 } from "../store/selector";
 import { isEmpty } from "lodash";
+import LoginLogo from "../Hackathonlogo.png";
 
 const useStyles = makeStyles({
   resendOtpContainer: {
@@ -80,8 +81,13 @@ const Login = () => {
     <>
       <Box className={commonClasses.formContainer}>
         <Box className={commonClasses.formBox}>
+          <Box className={commonClasses.imageLogoContainer}>
+            <Box className={commonClasses.imageContainer}>
+              <img src={LoginLogo} alt="LoginLogo" />
+            </Box>
+          </Box>
           <Typography variant="h1" className={commonClasses.formTitle}>
-            Login
+            D - Workers
           </Typography>
           {isEmpty(successMessage) && (
             <Box className={commonClasses.formInputFields}>

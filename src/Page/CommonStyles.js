@@ -31,7 +31,7 @@ export const commonStyles = makeStyles({
   },
   formTitle: {
     textAlign: "center",
-    marginBottom: "20px",
+    marginBottom: "20px !important",
     fontSize: "32px !important",
   },
   formInputFields: {
@@ -45,13 +45,13 @@ export const commonStyles = makeStyles({
       padding: "10px",
       width: "calc(400px - 30px)",
     },
-    marginBottom: "20px",
+    marginBottom: "25px",
   },
   formButton: {
     width: "calc(400px - 10px)",
     "& .MuiButton-root": {
       width: "100%",
-      backgroundColor: "#ff5e33",
+      backgroundColor: "#737373c4",
       color: "#fff",
       textTransform: "none",
       padding: "10px !important",
@@ -76,5 +76,18 @@ export const commonStyles = makeStyles({
     "& .MuiButton-root:hover": {
       backgroundColor: "transparent !important",
     },
+  },
+  imageContainer: {
+    height: "100px",
+    width: "100px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "& img": { width: "100%", objectFit: "contain" },
+  },
+  imageLogoContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "20px",
   },
 });
